@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ipior/custom-tailwind-shadcn-themes": "github:iPior/custom-tailwind-shadcn-themes#main",
+    "@ipior/custom-tailwind-shadcn-themes": "github:iPior/custom-tailwind-shadcn-themes#pkg",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/vite": "^4.1.11",
