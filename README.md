@@ -79,3 +79,20 @@ cp config.example.json /path/on/server/config.json
 ```
 
 Then edit `/path/on/server/config.json` by hand for that server's LAN/Tailscale links.
+
+## GitHub Actions deploy
+
+Pushes to `main` build the static app on a GitHub-hosted `ubuntu-latest` runner and rsync `dist/` to the
+configured server path. The workflow does not build or copy `config.json`; keep the production copy on the server
+at `/config/config.json`.
+
+Required repository secrets:
+
+- `DASHBOARD_DEPLOY_HOST` - server hostname, for example `optiplex.pior.ca`
+- `DASHBOARD_DEPLOY_USER` - SSH user
+- `DASHBOARD_DEPLOY_KEY` - private SSH key for that user
+- `DASHBOARD_DEPLOY_PATH` - static web root, for example `/srv/homepage-dashboard`
+
+Optional repository secrets:
+
+- `DASHBOARD_DEPLOY_PORT` - SSH port, defaults to `22`
