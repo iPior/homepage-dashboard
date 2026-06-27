@@ -12,7 +12,9 @@ const MONO = "'IBM Plex Mono', ui-monospace, monospace";
  */
 export default function Console() {
   const clock = useClock();
-  const links = useDashboardLinks();
+  const dashboard = useDashboardLinks();
+  const links = dashboard.links;
+  const title = dashboard.title ?? "homebase";
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +76,9 @@ export default function Console() {
             <span className="size-3 rounded-full bg-destructive" />
             <span className="size-3 rounded-full bg-warn" />
             <span className="size-3 rounded-full bg-good" />
-            <span className="ml-3 text-xs text-muted-foreground">pior@homeserver — {clock.timeWithSeconds}</span>
+            <span className="ml-3 text-xs text-muted-foreground">
+              {title.toLowerCase()} — {clock.timeWithSeconds}
+            </span>
           </div>
 
           {/* Prompt */}
@@ -104,7 +108,12 @@ export default function Console() {
 
           {/* Results */}
           <ul className="max-h-[52vh] overflow-y-auto py-1.5 text-sm">
-            {results.map((link, i) => {
+            {links.length === 0 ? (
+              <li className="px-4 py-8 text-center text-muted-foreground">
+                No links configured yet — add them in config.json
+              </li>
+            ) : null}
+            {links.length > 0 && results.map((link, i) => {
               const active = i === selected;
               return (
                 <li key={link.name}>
@@ -140,7 +149,7 @@ export default function Console() {
                 </li>
               );
             })}
-            {results.length === 0 && (
+            {links.length > 0 && results.length === 0 && (
               <li className="px-4 py-6 text-center text-muted-foreground">no matches — clear the filter</li>
             )}
           </ul>

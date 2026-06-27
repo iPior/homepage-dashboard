@@ -2,35 +2,80 @@
 
 A static single-page link dashboard for self-hosted apps and infra tools.
 
+Links are loaded by the browser from `/config.json` at runtime. The build is generic:
+deploy the same `dist/` directory everywhere and provide a different mounted `config.json`
+per server.
+
 ## Development
 
 ```bash
-npm install
-cp public/links.example.json public/links.json
-npm run dev
+pnpm install
+pnpm dev
 ```
+
+For local links, copy `config.example.json` to `config.json` and edit it. That file is ignored by git.
+The Vite dev server exposes it at `/config.json`. With no config present, the app starts as a blank slate and
+shows an empty state.
 
 ## Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 The static output is written to `dist/` and can be served by any static file server.
 
-To add links, edit `public/links.json`. That file is ignored by git; `public/links.example.json` is the safe
-committed template. Anyone who can load the deployed dashboard can also read `/links.json`, so only deploy it
-where those links can be visible to viewers.
+## Runtime config
+
+Create a `config.json` next to the deployed static app, or mount it so Caddy serves it at `/config.json`.
+Changing links only requires editing that file and refreshing the browser; no rebuild is needed.
+
+Shape:
+
+```json
+{
+  "title": "homebase",
+  "links": [
+    {
+      "name": "Jellyfin",
+      "description": "Media streaming",
+      "href": "http://jellyfin.example.lan",
+      "icon": "Film",
+      "group": "Media",
+      "status": "online",
+      "newTab": true
+    }
+  ]
+}
+```
+
+See `config.example.json` for a complete dummy config. Real `config.json` files are ignored and should not be
+committed.
 
 ## Deployment
 
-Pushes to `main` rebuild the static files with GitHub Actions and sync `dist/` to the Caddy web root over SSH.
-The sync preserves `links.json` on the server, so keep the production copy at the root Caddy serves.
+Build once, copy `dist/` to the static web root, and mount a hand-edited config file separately.
 
-Required repository secrets:
+The included `Caddyfile` expects:
 
-- `DASHBOARD_DEPLOY_HOST`
-- `DASHBOARD_DEPLOY_USER`
-- `DASHBOARD_DEPLOY_KEY`
-- `DASHBOARD_DEPLOY_PATH`
-- `DASHBOARD_DEPLOY_PORT` optional, defaults to `22`
+- Static build files at `/srv/homepage-dashboard`
+- Runtime config mounted at `/config/config.json`
+
+Example Docker run using the stock Caddy image:
+
+```bash
+pnpm build
+docker run --rm -p 8080:80 \
+  -v "$PWD/dist:/srv/homepage-dashboard:ro" \
+  -v "/path/on/server/config.json:/config/config.json:ro" \
+  -v "$PWD/Caddyfile:/etc/caddy/Caddyfile:ro" \
+  caddy:2
+```
+
+On a fresh server, start with:
+
+```bash
+cp config.example.json /path/on/server/config.json
+```
+
+Then edit `/path/on/server/config.json` by hand for that server's LAN/Tailscale links.

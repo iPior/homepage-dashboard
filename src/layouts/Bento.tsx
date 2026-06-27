@@ -11,7 +11,9 @@ import { cn } from "@/lib/utils";
  */
 export default function Bento() {
   const clock = useClock();
-  const links = useDashboardLinks();
+  const dashboard = useDashboardLinks();
+  const links = dashboard.links;
+  const title = dashboard.title ?? "homebase";
 
   // Tile size pattern: the first app gets a wide tile, the rest are 1x1.
   const sizeFor = (i: number) =>
@@ -41,7 +43,7 @@ export default function Bento() {
               className="text-lg font-semibold tracking-tight"
               style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
             >
-              homebase
+              {title}
             </span>
           </div>
           <Controls />
@@ -72,6 +74,20 @@ export default function Bento() {
               </p>
             </div>
           </div>
+
+          {links.length === 0 ? (
+            <div className="hp-rise col-span-2 flex flex-col justify-center rounded-sketch border border-dashed border-border bg-card/80 p-5 shadow-sketch-sm backdrop-blur sm:col-span-2">
+              <h2
+                className="text-xl font-semibold tracking-tight"
+                style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+              >
+                No links configured yet — add them in config.json
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Place a valid config.json beside the static build and refresh this page.
+              </p>
+            </div>
+          ) : null}
 
           {links.map((link, i) => {
             const Icon = link.icon;

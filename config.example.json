@@ -1,0 +1,23 @@
+{
+  "title": "homebase",
+  "links": [
+    {
+      "name": "Jellyfin",
+      "description": "Media streaming",
+      "href": "http://jellyfin.example.lan",
+      "icon": "Film",
+      "group": "Media",
+      "status": "online",
+      "newTab": true
+    },
+    {
+      "name": "Grafana",
+      "description": "Metrics dashboards",
+      "href": "http://grafana.example.lan",
+      "icon": "Gauge",
+      "group": "Infrastructure",
+      "status": "idle",
+      "newTab": true
+    }
+  ]
+}
