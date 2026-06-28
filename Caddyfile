@@ -1,4 +1,4 @@
-optiplex.pior.ca {
+optiplex.pior.ca, optiplex.tail.pior.ca {
 	encode zstd gzip
 
 	handle /config.json {
