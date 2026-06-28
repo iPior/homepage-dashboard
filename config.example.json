@@ -5,6 +5,7 @@
       "name": "Jellyfin",
       "description": "Media streaming",
       "href": "http://jellyfin.example.lan",
+      "fallbackHref": "http://jellyfin.tailnet-name.ts.net",
       "icon": "Film",
       "group": "Media",
       "status": "online",

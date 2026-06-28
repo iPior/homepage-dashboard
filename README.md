@@ -40,6 +40,7 @@ Shape:
       "name": "Jellyfin",
       "description": "Media streaming",
       "href": "http://jellyfin.example.lan",
+      "fallbackHref": "http://jellyfin.tailnet-name.ts.net",
       "icon": "Film",
       "group": "Media",
       "status": "online",
@@ -48,6 +49,10 @@ Shape:
   ]
 }
 ```
+
+`href` is the primary URL. `fallbackHref` is optional; when present, clicks briefly probe `href`
+first and open `fallbackHref` if the primary URL cannot be reached. If both probes fail, the app
+opens `href` so the browser shows the real connection error.
 
 See `config.example.json` for a complete dummy config. Real `config.json` files are ignored and should not be
 committed.

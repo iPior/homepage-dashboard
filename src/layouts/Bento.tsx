@@ -3,6 +3,7 @@ import { useDashboardLinks } from "@/lib/dashboardLinks";
 import { useClock } from "@/lib/useClock";
 import { Controls } from "@/components/Controls";
 import { StatusDot } from "@/components/StatusDot";
+import { openDashboardLinkFromAnchor } from "@/lib/linkNavigation";
 import { cn } from "@/lib/utils";
 
 /**
@@ -97,6 +98,7 @@ export default function Bento() {
                 href={link.href}
                 target={link.newTab ? "_blank" : undefined}
                 rel={link.newTab ? "noreferrer" : undefined}
+                onClick={(event) => openDashboardLinkFromAnchor(event, link)}
                 style={{ animationDelay: `${80 + i * 55}ms` }}
                 className={cn(
                   "hp-rise group relative flex flex-col justify-between overflow-hidden rounded-sketch border border-border bg-card/80 p-4 shadow-sketch-sm backdrop-blur transition-all hover:-translate-y-1 hover:bg-card hover:shadow-sketch",

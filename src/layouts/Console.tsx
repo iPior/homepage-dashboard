@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { useDashboardLinks } from "@/lib/dashboardLinks";
 import { useClock } from "@/lib/useClock";
 import { Controls } from "@/components/Controls";
+import { openDashboardLink, openDashboardLinkFromAnchor } from "@/lib/linkNavigation";
 import { cn } from "@/lib/utils";
 
 const MONO = "'IBM Plex Mono', ui-monospace, monospace";
@@ -33,8 +34,7 @@ export default function Console() {
   function open(index: number) {
     const link = results[index];
     if (!link) return;
-    if (link.newTab) window.open(link.href, "_blank", "noreferrer");
-    else window.location.href = link.href;
+    void openDashboardLink(link);
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -121,6 +121,7 @@ export default function Console() {
                     href={link.href}
                     target={link.newTab ? "_blank" : undefined}
                     rel={link.newTab ? "noreferrer" : undefined}
+                    onClick={(event) => openDashboardLinkFromAnchor(event, link)}
                     onMouseEnter={() => setSelected(i)}
                     className={cn(
                       "flex items-center gap-3 px-4 py-2 transition-colors",
