@@ -33,20 +33,12 @@ export default function Bento() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-10 pt-6 sm:px-6 sm:pt-10">
         <header className="mb-5 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="bloom-flower size-7">
-              <span className="petal p1" />
-              <span className="petal p2" />
-              <span className="petal p3" />
-              <span className="brand-core" />
-            </div>
-            <span
-              className="text-lg font-semibold tracking-tight"
-              style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
-            >
-              {title}
-            </span>
-          </div>
+          <span
+            className="text-lg font-semibold tracking-tight"
+            style={{ fontFamily: "'Bricolage Grotesque', sans-serif" }}
+          >
+            {title}
+          </span>
           <Controls />
         </header>
 
